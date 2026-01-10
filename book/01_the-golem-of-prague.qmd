@@ -1,0 +1,29 @@
+# Chapter 1: The Golem of Prague
+
+## 1.1: Statistical Golems
+
+- Scientistis frequently construct and use "statistical golems" - tools that
+  know their own procedure, but have no inherent wisdom.
+  - p-values, stat tests, etc
+- Classical statistical tools may not be adaptable to all modern research
+  scenarios.
+- The golems are often *associative* rather than *causal*, leading to misuse.
+
+## 1.2: Statistical Rethinking
+
+- The classic approach is to use a "flow-chart" to determine the statistical
+  procedure to use. However, this can lead to battles over picking the
+  "correct" test.
+- We also face epistemological issues, realized as conflation between 
+  causation and hypothesis falsification.
+  - Karl Popper's *The Myth of the Framework* (1996), his last book, covers 
+    this topic.
+- McElreath posits that *"deductive falsification is impossible"*, given that:
+  - Hypotheses are not models. So, falsifiying the hypothesis does not 
+    falsify the model.
+  - Measurement can invalidate models. If the measurement is wrong, 
+    falsification is not possible.
+  - Note that null hypothesis signficance testing (NHST) attempts to falsify 
+    the *null hypothesis*, not the actual research hypothesis.
+
+### 1.2.1: Hypotheses are not models
