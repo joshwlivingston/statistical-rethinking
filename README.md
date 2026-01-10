@@ -23,7 +23,9 @@ The examples in the book require installation of the
 [{rethinking}](https://github.com/rmcelreath/rethinking) R package. Follow
 these steps to install:
 
-1. Download `{rstan}` from [mc-stan.org](https://mc-stan.org)
+1. Download 
+   [`{cmdstanr}`](https://discourse.mc-stan.org/t/what-is-the-difference-between-rstan-cmdstanr-and-bridgestan/39226/2) 
+   from [mc-stan.org](https://mc-stan.org)
 2. Download `{rethinking}`:
 ```r
 # Experiemntal branch contains new tools for 2nd edition
