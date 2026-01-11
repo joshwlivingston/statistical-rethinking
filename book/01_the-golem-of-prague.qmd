@@ -27,3 +27,93 @@
     the *null hypothesis*, not the actual research hypothesis.
 
 ### 1.2.1: Hypotheses are not models
+
+Hypotheses are not models; rather they are one of three pieces that constitute
+scientific understanding:
+
+1. **Hypotheses** are falsifiable, often vauge descriptions of evidence.
+2. **Process models** are non-statistical understandings of a mechanisim which
+   supports or refutes a hypothesis.
+3. **Statistical models** are statistical understandings of process models.
+
+These pieces have special properties:
+- Since **hypotheses** are vague, they map to multiple **process models**.
+- Effectively similarly, **statistical models** can map to multiple 
+  **process models**.
+- Therefore, any **statistical model** can support/refute multiple 
+  **hypotheses**.
+
+This conundrum implies that if two models imply similar data, you should
+search for a description of the data under which the processes look different.
+Two process models can make similar predictions for field X, but vastly 
+different predictions for Y.
+
+### 1.2.2: Measurement matters
+
+Two properties of statistical modeling complicate hypothesis falsification:
+
+1. Observation error
+2. Continuous hypotheses
+
+#### 1.2.2.1: Observation error
+
+Difficulty of observation often leads to observed data mapping to multiple
+hypothetical conclusions. Or, the data can simply be measured incorrectly. 
+Both instances can result in "spurious falsifications," where the conclusions
+drawn are due to chance.
+
+#### 1.2.2.2: Continuous hypotheses
+
+Continuous hypotheses, such as *"80% of swans are white"* are difficult to
+prove, since [modus tollens](https://en.wikipedia.org/wiki/Modus_tollens) 
+("If P, then Q. Not Q. So, not P.") does not apply.
+
+### 1.2.3: Falsification is consensual
+
+In the scientific community, falsification of hypotheses is not strictly
+logical; rather, agreements on evidence are reached via *consensus*.
+Consequently, claims of science's definitiveness are usually exaggerated and
+possibly societally harmful. Kitcher (2011), *Science in a Democratic Society*,
+is a good intro to the sociology of science.
+
+## Tools for golem engineering
+
+Scientific research is often broader in scope than testing alone; models fill
+this gap. In addition to serving testing, models can make predictions and
+communicate understandings.
+
+*Rethinking* covers four tools for modeling:
+
+1. Bayesian data analysis
+2. Model comparison
+3. Multilevel models
+4. Graphical causal models
+
+### 1.3.1: Bayesian data analysis
+
+>We just use randomness to describe our uncertainty...
+
+Bayseian data analysis is a highly generalizable probability-based tool for
+using data to learn about the world.
+
+Bayesian analysis is intuitive:
+
+1. Count* the number of possible explanations.
+2. Identify the most plausible explanations based on counts.
+
+*In Bayesian, "count" refers to calculus, since Bayesian is a practice of 
+probability distributions.
+
+The frequentist approach, in contrast, imagines an infinte resampling of data 
+to reach a probability distribution. Ironically, however, frequentist tests
+are often interpreted as Bayesian components
+("95% likely that the value falls inside this confidence interval", e.g).
+
+Further, in the frequentist approach, parameters are not random variables.
+Random variables are useful when the measurement leads to a uniform sampling
+distribution. In the case of image analysis, bayesian analysis is often used,
+allowing noisy images to be reconstructed using modeled probabilities.
+
+### 1.3.2: Model comparison and prediction
+
+
