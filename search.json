@@ -79,21 +79,23 @@
   {
     "objectID": "book/index.html",
     "href": "book/index.html",
-    "title": "Book Notes",
+    "title": "Contents",
     "section": "",
-    "text": "This section contains my notes and exercises as I work through the Statistical Rethinking textbook.",
+    "text": "This section contains my notes and exercises as I work through the Statistical Rethinking textbook.\n\n\n\nThe Golem of Prague\nSmall Worlds and Large Worlds",
     "crumbs": [
-      "Book Notes"
+      "Book Notes",
+      "Contents"
     ]
   },
   {
     "objectID": "book/index.html#chapters",
     "href": "book/index.html#chapters",
-    "title": "Book Notes",
-    "section": "Chapters",
-    "text": "Chapters\n\nThe Golem of Prague\nSmall Worlds and Large Worlds",
+    "title": "Contents",
+    "section": "",
+    "text": "The Golem of Prague\nSmall Worlds and Large Worlds",
     "crumbs": [
-      "Book Notes"
+      "Book Notes",
+      "Contents"
     ]
   },
   {
@@ -108,7 +110,11 @@
     "href": "book/02_small-worlds-and-large-worlds.html",
     "title": "Chapter 2: Small Worlds and Large Worlds",
     "section": "",
-    "text": "Chapter 2: Small Worlds and Large Worlds"
+    "text": "Statistical modeling exists dualistically, in a small world (contained by the model’s inherent logic) and a big world (the context in which the model will live).\nIn the small world, it is important to make sure the model is valid, consistent, and well-behaved.\nThe large world is the broader context in which the finalized model will exist. It is important to note that the statistical model always underrepresents the full context of the large world. Out of sample data emerge, and a model’s logical inconsistencies can surface.\nAdapting to the large world is a straightforward process, for nature. For Bayesian models, the process is much more complex. It is difficult to beat natural heuristics once a model identifies what to look for.\nChapter 2 focuses on the small world.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 2: Small Worlds and Large Worlds"
+    ]
   },
   {
     "objectID": "index.html",

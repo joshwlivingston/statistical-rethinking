@@ -76,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -260,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../book/index.html"> 
+    <a class="nav-link active" href="../book/index.html" aria-current="page"> 
 <span class="menu-text">Book Notes</span></a>
   </li>  
   <li class="nav-item">
@@ -285,17 +285,63 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/02_small-worlds-and-large-worlds.html">Chapter 2: Small Worlds and Large Worlds</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contents</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/01_the-golem-of-prague.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 1: The Golem of Prague</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/02_small-worlds-and-large-worlds.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 2: Small Worlds and Large Worlds</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#chapter-2-small-worlds-and-large-worlds" id="toc-chapter-2-small-worlds-and-large-worlds" class="nav-link active" data-scroll-target="#chapter-2-small-worlds-and-large-worlds">Chapter 2: Small Worlds and Large Worlds</a></li>
+  <li><a href="#chapter-2-small-worlds-and-large-worlds" id="toc-chapter-2-small-worlds-and-large-worlds" class="nav-link active" data-scroll-target="#chapter-2-small-worlds-and-large-worlds">Chapter 2: Small Worlds and Large Worlds</a>
+  <ul class="collapse">
+  <li><a href="#the-garden-of-forking-data" id="toc-the-garden-of-forking-data" class="nav-link" data-scroll-target="#the-garden-of-forking-data">2.1: The garden of forking data</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -308,8 +354,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="chapter-2-small-worlds-and-large-worlds" class="level1">
 <h1>Chapter 2: Small Worlds and Large Worlds</h1>
+<p>Statistical modeling exists dualistically, in a <em>small world</em> (contained by the model’s inherent logic) and a <em>big world</em> (the context in which the model will live).</p>
+<p>In the small world, it is important to make sure the model is valid, consistent, and well-behaved.</p>
+<p>The large world is the broader context in which the finalized model will exist. It is important to note that the statistical model <em>always</em> underrepresents the full context of the large world. Out of sample data emerge, and a model’s logical inconsistencies can surface.</p>
+<p>Adapting to the large world is a straightforward process, for nature. For Bayesian models, the process is much more complex. It is difficult to beat natural heuristics once a model identifies what to look for.</p>
+<p>Chapter 2 focuses on the small world.</p>
+<section id="the-garden-of-forking-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-garden-of-forking-data">2.1: The garden of forking data</h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -733,17 +787,8 @@ ul.task-list li input[type="checkbox"] {
 <p>An unofficial companion to <a href="https://xcelab.net/rm/">Statistical Rethinking</a></p>
 </div>   
     <div class="nav-footer-center">
-      <ul class="footer-items list-unstyled">
-    <li class="nav-item">
- © 2026 Josh Livingston
-  </li>  
-    <li class="nav-item">
-    <a class="nav-link" href="../LICENSE">
-<p>License</p>
-</a>
-  </li>  
-</ul>
-    </div>
+<p>© 2026 Josh Livingston | <a href="LICENSE">License</a></p>
+</div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org/">Quarto</a></p>
 </div>
