@@ -44,3 +44,6 @@ devtools::install_github("rmcelreath/rethinking",ref="Experimental")
 This repository contains my work and solutions for the course
 [Statistical Rethinking (2025 Edition)](https://github.com/rmcelreath/stat_rethinking_2025), 
 which is licensed under CC0 1.0 Universal.
+
+Code examples are adapted from Richard McElreath’s original course materials
+and are shared here for educational purposes.
