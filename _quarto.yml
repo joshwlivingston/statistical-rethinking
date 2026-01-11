@@ -26,6 +26,7 @@ website:
       contents:
         - book/index.qmd
         - book/01_the-golem-of-prague.qmd
+        - book/02_small-worlds-and-large-worlds.qmd
     - title: "Course"
       contents:
         - course/index.qmd
