@@ -34,9 +34,11 @@ website:
       contents:
         - homework/index.qmd
   page-footer:
-    left: An unofficial companion to [Statistical Rethinking](https://xcelab.net/rm/)
+    left: An unofficial companion to [*Statistical Rethinking*](https://xcelab.net/rm/) by Richard McElreath
+    center:
+      - text: Notes by Josh Livingston
+        href: LICENSE.md
     right: Built with [Quarto](https://quarto.org/)
-    center: © 2026 Josh Livingston | [License](LICENSE)
   
 format:
   html:
