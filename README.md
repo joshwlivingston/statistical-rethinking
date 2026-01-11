@@ -46,4 +46,4 @@ This repository contains my work and solutions for the course
 which is licensed under CC0 1.0 Universal.
 
 Code examples are adapted from Richard McElreath’s original course materials
-and are shared here for educational purposes.
+and/or [*Statistical Rethinking*](https://xcelab.net/rm/).
