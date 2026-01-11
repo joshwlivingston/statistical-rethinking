@@ -34,9 +34,10 @@ website:
         - homework/index.qmd
   page-footer:
     center: |
-      An unofficial companion to [Statistical Rethinking](https://xcelab.net/rm/). 
-      © 2026 Josh Livingston • [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) (content) • [MIT](https://opensource.org/licenses/MIT) (code)
-      Built with [Quarto](https://quarto.org/).
+      An unofficial companion to [Statistical Rethinking](https://xcelab.net/rm/) •
+      Built with [Quarto](https://quarto.org/)
+    right: |
+      © 2026 Josh Livingston ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), [MIT](https://opensource.org/licenses/MIT))
   
 format:
   html:
