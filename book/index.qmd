@@ -1,8 +1,7 @@
----
-title: "Book Notes"
----
+# Contents
 
-This section contains my notes and exercises as I work through the *Statistical Rethinking* textbook.
+This section contains my notes and exercises as I work through the
+[*Statistical Rethinking*](https://xcelab.net/rm/) textbook.
 
 ## Chapters
 
