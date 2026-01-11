@@ -1,0 +1,134 @@
+[
+  {
+    "objectID": "LICENSE.html",
+    "href": "LICENSE.html",
+    "title": "MIT License",
+    "section": "",
+    "text": "MIT License\nCopyright (c) 2026 Josh Livingston\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+  },
+  {
+    "objectID": "homework/index.html",
+    "href": "homework/index.html",
+    "title": "Homework Solutions",
+    "section": "",
+    "text": "This section contains my solutions to the course homework assignments.\nHomework solutions will be added as assignments are completed.",
+    "crumbs": [
+      "Homework",
+      "Homework Solutions"
+    ]
+  },
+  {
+    "objectID": "book/index.html",
+    "href": "book/index.html",
+    "title": "Book Notes",
+    "section": "",
+    "text": "This section contains my notes and exercises as I work through the Statistical Rethinking textbook.",
+    "crumbs": [
+      "Book Notes"
+    ]
+  },
+  {
+    "objectID": "book/index.html#chapters",
+    "href": "book/index.html#chapters",
+    "title": "Book Notes",
+    "section": "Chapters",
+    "text": "Chapters\n\nThe Golem of Prague",
+    "crumbs": [
+      "Book Notes"
+    ]
+  },
+  {
+    "objectID": "book/01_the-golem-of-prague.html",
+    "href": "book/01_the-golem-of-prague.html",
+    "title": "Chapter 1: The Golem of Prague",
+    "section": "",
+    "text": "Scientistis frequently construct and use “statistical golems” - tools that know their own procedure, but have no inherent wisdom.\n\np-values, stat tests, etc\n\nClassical statistical tools may not be adaptable to all modern research scenarios.\nThe golems are often associative rather than causal, leading to misuse.\n\n\n\n\n\nThe classic approach is to use a “flow-chart” to determine the statistical procedure to use. However, this can lead to battles over picking the “correct” test.\nWe also face epistemological issues, realized as conflation between causation and hypothesis falsification.\n\nKarl Popper’s The Myth of the Framework (1996), his last book, covers this topic.\n\nMcElreath posits that “deductive falsification is impossible”, given that:\n\nHypotheses are not models. So, falsifiying the hypothesis does not falsify the model.\nMeasurement can invalidate models. If the measurement is wrong, falsification is not possible.\nNote that null hypothesis signficance testing (NHST) attempts to falsify the null hypothesis, not the actual research hypothesis.\n\n\n\n\nHypotheses are not models; rather they are one of three pieces that constitute scientific understanding:\n\nHypotheses are falsifiable, often vauge descriptions of evidence.\nProcess models are non-statistical understandings of a mechanisim which supports or refutes a hypothesis.\nStatistical models are statistical understandings of process models.\n\nThese pieces have special properties: - Since hypotheses are vague, they map to multiple process models. - Effectively similarly, statistical models can map to multiple process models. - Therefore, any statistical model can support/refute multiple hypotheses.\nThis conundrum implies that if two models imply similar data, you should search for a description of the data under which the processes look different. Two process models can make similar predictions for field X, but vastly different predictions for Y.\n\n\n\nTwo properties of statistical modeling complicate hypothesis falsification:\n\nObservation error\nContinuous hypotheses\n\n\n\nDifficulty of observation often leads to observed data mapping to multiple hypothetical conclusions. Or, the data can simply be measured incorrectly. Both instances can result in “spurious falsifications,” where the conclusions drawn are due to chance.\n\n\n\nContinuous hypotheses, such as “80% of swans are white” are difficult to prove, since modus tollens (“If P, then Q. Not Q. So, not P.”) does not apply.\n\n\n\n\nIn the scientific community, falsification of hypotheses is not strictly logical; rather, agreements on evidence are reached via consensus. Consequently, claims of science’s definitiveness are usually exaggerated and possibly societally harmful. Kitcher (2011), Science in a Democratic Society, is a good intro to the sociology of science.\n\n\n\n\nScientific research is often broader in scope than testing alone; models fill this gap. In addition to serving testing, models can make predictions and communicate understandings.\nRethinking covers four tools for modeling:\n\nBayesian data analysis\nModel comparison\nMultilevel models\nGraphical causal models\n\n\n\n\nWe just use randomness to describe our uncertainty…\n\nBayseian data analysis is a highly generalizable probability-based tool for using data to learn about the world.\nBayesian analysis is intuitive:\n\nCount* the number of possible explanations.\nIdentify the most plausible explanations based on counts.\n\n*In Bayesian, “count” refers to calculus, since Bayesian is a practice of probability distributions.\nThe frequentist approach, in contrast, imagines an infinte resampling of data to reach a probability distribution. Ironically, however, frequentist tests are often interpreted as Bayesian components (“95% likely that the value falls inside this confidence interval”, e.g).\nFurther, in the frequentist approach, parameters are not random variables. Random variables are useful when the measurement leads to a uniform sampling distribution. In the case of image analysis, bayesian analysis is often used, allowing noisy images to be reconstructed using modeled probabilities.\n\n\n\n\nFitting is easy; prediction is hard.\n\nCross-validation and information criteria are two metrics used to estimate predictive accuracy and evaluate possibility of overfitting:\n\nCross-validation provides provide fit estimates over different resamples of the data.\nInformation criteria are measures that “balance model fit with model complexity”.\n\nRecall that multiple process models can exist for a statistical model. Thus, it is always necessary to compare multiple statistical models for a given problem.\n\n\n\nMultilevel models are hierarchical bayesian models that utilize partial pooling, a statistical technique that uses information across levels of the hierarchy to produce better estimates for units within a level.\nFour common applications of partial pooling:\n\nAdjust for repeat sampling (multiple observations from the same unit)\nAdjust for imbalanced sampling (observation X sampled 10x more than Y)\nStudy variation (useful when question includes variations among a level within the hierarchy)\nAvoid averaging (features are often pre-averaged for traditional models, destorying the data’s variation)\n\nMcElreath argues that “multilevel regression deserves to be the default form of regression,” and that research involving single-level models must justify the decision to not use a multilevel model. Particularly, the researcher must demonstrate lack of variation in treatment effects among observations.\nMultilevel models are not new! From 1960 to 1978 John Tukey developed multilevel models for NBC from that were used for election forecasting.\n\n\n\n\nA statistical model is an amazing assocation engine\n\nFlawed causal models and confounding variables can often lead to better prediction, due to assocation’s predictive power. This often means that scientists can be systematically miseld by predictive accuracy.\nThus, being mindful of the underlying causal assumptions is a mandatory component of statistical modeling. This is most often achieved through construction of a causal model, from which multiple statistical models can be developed.\nGraphical causal models, such as directed acyclic graphs (DAGs), are helpful tools allowing for the visualization of causal relationships. DAGs are developed outside of the data, usually in deep consulation with domain experts.\nToday’s dominating method of causal inference is the causal salad, wherein control variables are carefully tossed into the models, toward the aim of developing a causal narrative. When designing a model to be later used for interventions, it is important that the causal relationships, especially the controlling effects, are explainable.\n\n\n\n\nMcElreath makes the argument that instead of working with a plethora of black-box models, we should aim to develop the skills to analyze null hypotheses. The tools introduced – Bayesian data analysis, model comparison, multilevel modeling, and graphical causal models – serve this aim.\n\n\n\nChapters 2-3: Intro to Bayesian inference\nChapters 4-8: Multiple linear regression\nChapters 9-12: Generalized linear models\nChapters 13-16: Multilevel models\nChapter 17: Address issues from 1st edition\n\nEach chapter ends with exercises across difficulty levels. The more difficult problems introduce new material and challenges.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 1: The Golem of Prague"
+    ]
+  },
+  {
+    "objectID": "book/01_the-golem-of-prague.html#statistical-golems",
+    "href": "book/01_the-golem-of-prague.html#statistical-golems",
+    "title": "Chapter 1: The Golem of Prague",
+    "section": "",
+    "text": "Scientistis frequently construct and use “statistical golems” - tools that know their own procedure, but have no inherent wisdom.\n\np-values, stat tests, etc\n\nClassical statistical tools may not be adaptable to all modern research scenarios.\nThe golems are often associative rather than causal, leading to misuse.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 1: The Golem of Prague"
+    ]
+  },
+  {
+    "objectID": "book/01_the-golem-of-prague.html#statistical-rethinking",
+    "href": "book/01_the-golem-of-prague.html#statistical-rethinking",
+    "title": "Chapter 1: The Golem of Prague",
+    "section": "",
+    "text": "The classic approach is to use a “flow-chart” to determine the statistical procedure to use. However, this can lead to battles over picking the “correct” test.\nWe also face epistemological issues, realized as conflation between causation and hypothesis falsification.\n\nKarl Popper’s The Myth of the Framework (1996), his last book, covers this topic.\n\nMcElreath posits that “deductive falsification is impossible”, given that:\n\nHypotheses are not models. So, falsifiying the hypothesis does not falsify the model.\nMeasurement can invalidate models. If the measurement is wrong, falsification is not possible.\nNote that null hypothesis signficance testing (NHST) attempts to falsify the null hypothesis, not the actual research hypothesis.\n\n\n\n\nHypotheses are not models; rather they are one of three pieces that constitute scientific understanding:\n\nHypotheses are falsifiable, often vauge descriptions of evidence.\nProcess models are non-statistical understandings of a mechanisim which supports or refutes a hypothesis.\nStatistical models are statistical understandings of process models.\n\nThese pieces have special properties: - Since hypotheses are vague, they map to multiple process models. - Effectively similarly, statistical models can map to multiple process models. - Therefore, any statistical model can support/refute multiple hypotheses.\nThis conundrum implies that if two models imply similar data, you should search for a description of the data under which the processes look different. Two process models can make similar predictions for field X, but vastly different predictions for Y.\n\n\n\nTwo properties of statistical modeling complicate hypothesis falsification:\n\nObservation error\nContinuous hypotheses\n\n\n\nDifficulty of observation often leads to observed data mapping to multiple hypothetical conclusions. Or, the data can simply be measured incorrectly. Both instances can result in “spurious falsifications,” where the conclusions drawn are due to chance.\n\n\n\nContinuous hypotheses, such as “80% of swans are white” are difficult to prove, since modus tollens (“If P, then Q. Not Q. So, not P.”) does not apply.\n\n\n\n\nIn the scientific community, falsification of hypotheses is not strictly logical; rather, agreements on evidence are reached via consensus. Consequently, claims of science’s definitiveness are usually exaggerated and possibly societally harmful. Kitcher (2011), Science in a Democratic Society, is a good intro to the sociology of science.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 1: The Golem of Prague"
+    ]
+  },
+  {
+    "objectID": "book/01_the-golem-of-prague.html#tools-for-golem-engineering",
+    "href": "book/01_the-golem-of-prague.html#tools-for-golem-engineering",
+    "title": "Chapter 1: The Golem of Prague",
+    "section": "",
+    "text": "Scientific research is often broader in scope than testing alone; models fill this gap. In addition to serving testing, models can make predictions and communicate understandings.\nRethinking covers four tools for modeling:\n\nBayesian data analysis\nModel comparison\nMultilevel models\nGraphical causal models\n\n\n\n\nWe just use randomness to describe our uncertainty…\n\nBayseian data analysis is a highly generalizable probability-based tool for using data to learn about the world.\nBayesian analysis is intuitive:\n\nCount* the number of possible explanations.\nIdentify the most plausible explanations based on counts.\n\n*In Bayesian, “count” refers to calculus, since Bayesian is a practice of probability distributions.\nThe frequentist approach, in contrast, imagines an infinte resampling of data to reach a probability distribution. Ironically, however, frequentist tests are often interpreted as Bayesian components (“95% likely that the value falls inside this confidence interval”, e.g).\nFurther, in the frequentist approach, parameters are not random variables. Random variables are useful when the measurement leads to a uniform sampling distribution. In the case of image analysis, bayesian analysis is often used, allowing noisy images to be reconstructed using modeled probabilities.\n\n\n\n\nFitting is easy; prediction is hard.\n\nCross-validation and information criteria are two metrics used to estimate predictive accuracy and evaluate possibility of overfitting:\n\nCross-validation provides provide fit estimates over different resamples of the data.\nInformation criteria are measures that “balance model fit with model complexity”.\n\nRecall that multiple process models can exist for a statistical model. Thus, it is always necessary to compare multiple statistical models for a given problem.\n\n\n\nMultilevel models are hierarchical bayesian models that utilize partial pooling, a statistical technique that uses information across levels of the hierarchy to produce better estimates for units within a level.\nFour common applications of partial pooling:\n\nAdjust for repeat sampling (multiple observations from the same unit)\nAdjust for imbalanced sampling (observation X sampled 10x more than Y)\nStudy variation (useful when question includes variations among a level within the hierarchy)\nAvoid averaging (features are often pre-averaged for traditional models, destorying the data’s variation)\n\nMcElreath argues that “multilevel regression deserves to be the default form of regression,” and that research involving single-level models must justify the decision to not use a multilevel model. Particularly, the researcher must demonstrate lack of variation in treatment effects among observations.\nMultilevel models are not new! From 1960 to 1978 John Tukey developed multilevel models for NBC from that were used for election forecasting.\n\n\n\n\nA statistical model is an amazing assocation engine\n\nFlawed causal models and confounding variables can often lead to better prediction, due to assocation’s predictive power. This often means that scientists can be systematically miseld by predictive accuracy.\nThus, being mindful of the underlying causal assumptions is a mandatory component of statistical modeling. This is most often achieved through construction of a causal model, from which multiple statistical models can be developed.\nGraphical causal models, such as directed acyclic graphs (DAGs), are helpful tools allowing for the visualization of causal relationships. DAGs are developed outside of the data, usually in deep consulation with domain experts.\nToday’s dominating method of causal inference is the causal salad, wherein control variables are carefully tossed into the models, toward the aim of developing a causal narrative. When designing a model to be later used for interventions, it is important that the causal relationships, especially the controlling effects, are explainable.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 1: The Golem of Prague"
+    ]
+  },
+  {
+    "objectID": "book/01_the-golem-of-prague.html#summary",
+    "href": "book/01_the-golem-of-prague.html#summary",
+    "title": "Chapter 1: The Golem of Prague",
+    "section": "",
+    "text": "McElreath makes the argument that instead of working with a plethora of black-box models, we should aim to develop the skills to analyze null hypotheses. The tools introduced – Bayesian data analysis, model comparison, multilevel modeling, and graphical causal models – serve this aim.\n\n\n\nChapters 2-3: Intro to Bayesian inference\nChapters 4-8: Multiple linear regression\nChapters 9-12: Generalized linear models\nChapters 13-16: Multilevel models\nChapter 17: Address issues from 1st edition\n\nEach chapter ends with exercises across difficulty levels. The more difficult problems introduce new material and challenges.",
+    "crumbs": [
+      "Book Notes",
+      "Chapter 1: The Golem of Prague"
+    ]
+  },
+  {
+    "objectID": "course/index.html",
+    "href": "course/index.html",
+    "title": "Course Notes",
+    "section": "",
+    "text": "This section contains notes from the pre-recorded lectures and slides.\nCourse content will be added as lectures are completed.",
+    "crumbs": [
+      "Course",
+      "Course Notes"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Statistical Rethinking (2nd Edition)",
+    "section": "",
+    "text": "This repo contains my notes and code as I work through Richard McElreath’s 2025 course on his book Statistical Rethinking. A course in Bayesian statistics, Rethinking is code-heavy and meant to be read sequentially, not as a reference. McElreath offers his flipped instruction course locally, also publishing the lectures online.\n\n\nThe repoistory is organized into separate quarto files, which are stitched together in _quarto.yml.\n\nbook/: contains notes and exercises directly from the textbook\ncourse/: contains notes from pre-recorded lecutres and slides\nhomework/: contains homework solutions\n\nTo view the site locally, use the command line:\nquarto preview\n\n\n\nThe examples in the book require installation of the {rethinking} R package. Follow these steps to install:\n\nDownload {cmdstanr} from mc-stan.org\nDownload {rethinking}:\n\n# Experiemntal branch contains new tools for 2nd edition\ndevtools::install_github(\"rmcelreath/rethinking\",ref=\"Experimental\")\n\n\n\nThis repository contains my work and solutions for the course Statistical Rethinking (2025 Edition), which is licensed under CC0 1.0 Universal."
+  },
+  {
+    "objectID": "index.html#organization",
+    "href": "index.html#organization",
+    "title": "Statistical Rethinking (2nd Edition)",
+    "section": "",
+    "text": "The repoistory is organized into separate quarto files, which are stitched together in _quarto.yml.\n\nbook/: contains notes and exercises directly from the textbook\ncourse/: contains notes from pre-recorded lecutres and slides\nhomework/: contains homework solutions\n\nTo view the site locally, use the command line:\nquarto preview"
+  },
+  {
+    "objectID": "index.html#setup",
+    "href": "index.html#setup",
+    "title": "Statistical Rethinking (2nd Edition)",
+    "section": "",
+    "text": "The examples in the book require installation of the {rethinking} R package. Follow these steps to install:\n\nDownload {cmdstanr} from mc-stan.org\nDownload {rethinking}:\n\n# Experiemntal branch contains new tools for 2nd edition\ndevtools::install_github(\"rmcelreath/rethinking\",ref=\"Experimental\")"
+  },
+  {
+    "objectID": "index.html#attribution",
+    "href": "index.html#attribution",
+    "title": "Statistical Rethinking (2nd Edition)",
+    "section": "",
+    "text": "This repository contains my work and solutions for the course Statistical Rethinking (2025 Edition), which is licensed under CC0 1.0 Universal."
+  }
+]
