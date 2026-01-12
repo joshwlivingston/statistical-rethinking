@@ -555,7 +555,7 @@ window.Quarto = {
 <ol type="1">
 <li>Define the <em>parameter</em> <strong>grid</strong>:</li>
 </ol>
-<div id="f295598b" class="cell" data-execution_count="1">
+<div id="43e91c9d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -569,7 +569,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Compute the <em>likelihood</em> at each <em>parameter</em> value:</li>
 </ol>
-<div id="d26da7c4" class="cell" data-execution_count="2">
+<div id="b8df2f0b" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> st</span>
@@ -580,7 +580,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Define the <em>priors</em>:</li>
 </ol>
-<div id="a5da2b9c" class="cell" data-execution_count="3">
+<div id="39f21601" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> [</span>
@@ -593,7 +593,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>Compute the <em>posteriors</em> by multiplying the <em>priors</em> and the <em>likelihood</em>:</li>
 </ol>
-<div id="261cb63f" class="cell" data-execution_count="4">
+<div id="69017b19" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posteriors_unstd <span class="op">=</span> <span class="bu">list</span>()</span>
@@ -604,7 +604,7 @@ window.Quarto = {
 <ol start="5" type="1">
 <li>Standardize the <em>posteriors</em>:</li>
 </ol>
-<div id="333056b3" class="cell" data-execution_count="5">
+<div id="7cf0fc00" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>posteriors <span class="op">=</span> <span class="bu">list</span>()</span>
@@ -615,7 +615,7 @@ window.Quarto = {
 <ol start="6" type="1">
 <li>Analyze the results. Notice the effect of the prior choice:</li>
 </ol>
-<div id="7d0e8172" class="cell" data-execution_count="6">
+<div id="ba5d0a5c" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> posterior <span class="kw">in</span> posteriors:</span>
