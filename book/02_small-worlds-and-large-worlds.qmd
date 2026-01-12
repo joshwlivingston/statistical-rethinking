@@ -164,7 +164,7 @@ Similar to grid search in machine learning, **grid approximation** in
 *Bayesian inference* achieves great performance in approximating the
 *posterior*, using a discrete set of possible *parameter* values.
 
-*Grid approximation* follows 6 steps:
+*Grid approximation* follows 5 steps:
 
 1. Define the *parameter* **grid**:
 ```{python}
@@ -172,7 +172,6 @@ import numpy as np
 
 # change this to increase/decrease approximation precision
 N_OUT = 20
-
 p_grid = np.linspace(0, 1, N_OUT)
 ```
 
@@ -185,41 +184,35 @@ likelihood = st.binom.pmf(6, 9, p_grid)
 
 3. Define the *priors*:
 ```{python}
-priors = [
-    np.repeat(1.0, len(p_grid)),  # uninformative prior
-    np.where(p_grid < 0.5, 0.0, 1.0),  # 0 if x < 0.5 else 1
-    np.exp(-5 * np.abs(p_grid - 0.5)),  # exponential peak centered at 0.5
-]
+priors = {
+    "Uniform": np.ones(N_OUT),
+    "Step Function": (p_grid >= 0.5).astype(float),
+    "Exponential Peak": np.exp(-5 * np.abs(p_grid - 0.5)),
+}
 ```
 
 4. Compute the *posteriors* by multiplying the *priors* and the *likelihood*:
 ```{python}
-posteriors_unstd = list()
-for prior in priors:
-    posteriors_unstd.append(likelihood * prior)
+posteriors = {
+    name: (likelihood * prior) / (likelihood * prior).sum()
+    for name, prior in priors.items()
+}
 ```
 
-5. Standardize the *posteriors*:
+5. Analyze the results. Notice the effect of the prior choice:
 ```{python}
-posteriors = list()
-for posterior_unstd in posteriors_unstd:
-    posteriors.append(posterior_unstd / sum(posterior_unstd))
-```
+import matplotlib.pyplot as plt
 
-6. Analyze the results. Notice the effect of the prior choice:
-```{python}
-for posterior in posteriors:
-    import matplotlib.pyplot as plt
+fig, axes = plt.subplots(3, 1, figsize=(8, 15), sharey=True)
 
-    # Create the plot
-    plt.figure(figsize=(8, 5))
-    plt.plot(p_grid, posterior, "-o")
+for ax, (name, posterior) in zip(axes, posteriors.items()):
+    ax.plot(p_grid, posterior, "-o")
+    ax.set_title(name)
+    ax.set_xlabel("Probability of success")
 
-    plt.xlabel("Probability of success")
-    plt.ylabel("Posterior probability")
-    plt.title("Posterior distribution after 9 draws")
-
-    plt.show()
+axes[0].set_ylabel("Posterior probability")
+plt.tight_layout()
+plt.show()
 ```
 
 ## Appendix
