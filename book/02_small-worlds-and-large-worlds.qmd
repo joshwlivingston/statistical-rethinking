@@ -137,7 +137,7 @@ Why is the *Bayes' theorem expression better? The answer lies in practice:
   proportionality:
 
 $$
-\Pr(A) \propto \Pr(A|B)\Pr(B) \tag{2.5}
+\Pr(B|A) \propto \Pr(A|B)\Pr(B) \tag{2.5}
 $$
 
 This means that the *posterior* is proportional to the *likelihood* multiplied
@@ -157,7 +157,7 @@ Note that $\Pr(A)$ measurable via the
 [Law of Total Probability](https://en.wikipedia.org/wiki/Law_of_total_probability):
 
 $$
-\Pr(A) = \mathbb{E}[\Pr(A|B)] = \int{\Pr(A|B)\Pr(B)dB} \tag{2.4}
+\Pr(A) = \mathbb{E}[\Pr(A|B)] = \int{\Pr(A|B)\Pr(B)dB} \tag{A2.1}
 $$
 
-$\mathbb{E}[\Pr{A|B}]$ is also referred to as the **marginal likelihood**.
+$\mathbb{E}[\Pr(A|B)]$ is also referred to as the **marginal likelihood**.
