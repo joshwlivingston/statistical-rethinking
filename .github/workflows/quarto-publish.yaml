@@ -20,8 +20,11 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
-      - name: Install the project
-        run: uv sync --locked --all-extras --dev
+      - name: Setup venv
+        run: uv venv
+
+      - name: Install dependencies
+        run: uv pip install -r requirements.txt
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
