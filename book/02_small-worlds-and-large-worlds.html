@@ -488,7 +488,7 @@ window.Quarto = {
 <li><span class="math inline">\(\Pr(A)\)</span> (see <a href="#appendix">appendix</a>) is not needed, due to the implied proportionality:</li>
 </ul>
 <p><span class="math display">\[
-\Pr(A) \propto \Pr(A|B)\Pr(B) \tag{2.5}
+\Pr(B|A) \propto \Pr(A|B)\Pr(B) \tag{2.5}
 \]</span></p>
 <p>This means that the <em>posterior</em> is proportional to the <em>likelihood</em> multiplied by the <em>prior</em>. Since we choose the <em>prior</em>, we simply have to calculate the <em>likelihood</em> to find the shape of the <em>posterior</em>. We don’t need the exact density values; any needed estimation can be performed on the proportional density.</p>
 </section>
@@ -503,9 +503,9 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="a2.4.1-bayes-theorem">A2.4.1: Bayes’ theorem</h3>
 <p>Note that <span class="math inline">\(\Pr(A)\)</span> measurable via the <a href="https://en.wikipedia.org/wiki/Law_of_total_probability">Law of Total Probability</a>:</p>
 <p><span class="math display">\[
-\Pr(A) = \mathbb{E}[\Pr(A|B)] = \int{\Pr(A|B)\Pr(B)dB} \tag{2.4}
+\Pr(A) = \mathbb{E}[\Pr(A|B)] = \int{\Pr(A|B)\Pr(B)dB} \tag{A2.1}
 \]</span></p>
-<p><span class="math inline">\(\mathbb{E}[\Pr{A|B}]\)</span> is also referred to as the <strong>marginal likelihood</strong>.</p>
+<p><span class="math inline">\(\mathbb{E}[\Pr(A|B)]\)</span> is also referred to as the <strong>marginal likelihood</strong>.</p>
 
 
 </section>
