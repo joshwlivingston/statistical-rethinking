@@ -93,10 +93,10 @@ communicate understandings.
 
 >We just use randomness to describe our uncertainty...
 
-Bayseian data analysis is a highly generalizable probability-based tool for
+**Bayseian data analysis** is a highly generalizable probability-based tool for
 using data to learn about the world.
 
-Bayesian analysis is intuitive:
+*Bayesian analysis* is intuitive:
 
 1. Count* the number of possible explanations.
 2. Identify the most plausible explanations based on counts.
