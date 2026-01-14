@@ -52,17 +52,17 @@ system depdencies:
 spellchecking library. It is used by the
 [spellcheck](https://github.com/christopherkenny/spellcheck) quarto extension.
 
-**Windows**:
+Windows:
 ```pwsh
 choco install hunspell.portable
 ```
 
-**Mac**:
+Mac:
 ```
 brew install hunspell
 ```
 
-**Linux**:
+Linux:
 ```
 sudo apt-get install hunspell
 ```
@@ -71,7 +71,7 @@ sudo apt-get install hunspell
 
 After installing Hunspell, you must install the `en_US` dictionary.
 
-**Windows**/**Mac**:
+Windows/Mac:
 Download the
 [dictionary](https://github.com/wooorm/dictionaries/tree/main/dictionaries/en)
 files (both files: `.dic` and `.aff`), and place them in hunspell's dictionary
@@ -85,7 +85,7 @@ hunspell -D
 To add a new directory to the search path, add the directory to the `DICPATH`
 environment variable.
 
-**Linux**:
+Linux:
 ```
 sudo apt-get install hunspell-en-us
 ```
