@@ -331,11 +331,14 @@ properties of the normal distribution.
 ```{python}
 import pymc as pm
 
-data = np.repeat((0, 1), (40, 80))
+W = 6
+L = 3
 
-with pm.Model() as quadratic_approximation:
+data = np.repeat((0, 1), (L, W))
+
+with pm.Model() as model:
     """
-    Objective is to identify mu and sigma to fit the posterior normal 
+    Objective is to identify mu and sigma to fit the posterior normal
     distribution.
 
     mu is a model parameter, the average probability of success. mu receives
@@ -345,32 +348,61 @@ with pm.Model() as quadratic_approximation:
 
     Taken together, N(mu, sigma) represents the posterior distribution of the
     probability of success.
+
+    # Notes:
+
+    ## `default_transform=None`
+    - In pymc5, `default_transform=None` can be added to the parameter,
+      rather than as tags after the fact.
+      - Transformation to log-odds are performed by default on bounded
+        parameters
+      - We disable so that we may compute the hessian on the untransformed
+        space
+
+    ## 'Powell' optimizer
+    - Contrary to the translation example, here, the default optimizer does
+        not move `p` when `default_transform=None`
+    - 'Powell' returns 0.67 as expected
     """
     # parameters
-    ## mu: prior: uniform over [0,1]
-    mu = pm.Uniform("mu", 0, 1)
+    ## p: prior: uniform over [0,1]
+    p = pm.Uniform("p", 0, 1, default_transform=None)
 
     # likelihood: binomial
-    x = pm.Binomial("x", n=len(data), p=mu, observed=data.sum())
+    x = pm.Binomial("x", n=len(data), p=p, observed=data.sum())
 
     # find MAP
-    q_map = pm.find_MAP()
+    MAP = pm.find_MAP(method="Powell")
 
     # estimate sigma at MAP
-    hessian = pm.find_hessian(q_map, vars=[mu], negate_output=False)
-    q_std = ((1 / -hessian) ** 0.5)[0][0]
+    hessian = pm.find_hessian(p_map, vars=[p], negate_output=False)
+    sigma = np.sqrt(-np.linalg.inv(hessian))[0][0]
+
+mu = MAP["p"]
+ci_lower = st.norm.ppf(0.055, loc=mu, scale=sigma)
+ci_upper = st.norm.ppf(0.945, loc=mu, scale=sigma)
 ```
 
-We can use the final parameter values to analyze our distirbution
-```{python}
-mu_map = q_map["mu"]
-ci_lower = st.norm.ppf(0.055, loc=mu_map, scale=q_std)
-ci_upper = st.norm.ppf(0.945, loc=mu_map, scale=q_std)
-```
+We can use the final parameter values to analyze our distribution
 
 | Parameter | Mean (MAP)                | Std Dev                  | 5.5% Credible Interval (CI) | 94.5% CI                    |
 | :-------- | :---------                | :------                  | :---------                  | :------------               |
 | $p$       | `{python} f"{mu_map:.2}"` | `{python} f"{q_std:.2}"` |`{python} f"{ci_lower:.2}"`  | `{python} f"{ci_upper:.2}"` |
+
+We can compare the "true" *posterior* with the quadratic approximation:
+```{python}
+a = W + 1
+b = L + 1
+x = np.linspace(0, 1)
+
+fig, ax = plt.subplots(1, 1)
+
+ax.plot(x, st.beta.pdf(x, a, b), "r-", label="True Posterior")
+ax.plot(x, st.norm.pdf(x, mu, sigma), "b-", label="Quadratic Approximation")
+
+ax.legend()
+plt.show()
+```
 
 ## Appendix
 
