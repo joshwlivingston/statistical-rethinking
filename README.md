@@ -22,7 +22,7 @@ together in `_quarto.yml`.
 
 ## Setup
 
-### python
+### Python
 While the original code in the book uses the custom R `rethinking` package, I
 have implemented the code examples and homework solutions using `pymc5`.
 
@@ -42,7 +42,7 @@ uv pip install -r requirements.txt
 Note: `pymc` compiles code at runtime, utilizing the `g++` compiler it finds in
 the PATH.
 
-### quarto
+### Quarto
 In addition to [Quarto](https://quarto.org/), you must install the following
 system depdencies:
 
@@ -72,18 +72,15 @@ sudo apt-get install hunspell
 After installing Hunspell, you must install the `en_US` dictionary.
 
 Windows/Mac:
-Download the
+
+1. Download the
 [dictionary](https://github.com/wooorm/dictionaries/tree/main/dictionaries/en)
-files (both files: `.dic` and `.aff`), and place them in hunspell's dictionary
-SEARCH PATH.
+files (both files: `.dic` and `.aff`).
+2. Place them in hunspell's dictionary SEARCH PATH.
 
-To view the search path, use the command line:
-```
-hunspell -D
-```
-
-To add a new directory to the search path, add the directory to the `DICPATH`
+- To add a new directory to the search path, add the directory to the `DICPATH`
 environment variable.
+- To view the search path, use `hunspell -D`:
 
 Linux:
 ```
