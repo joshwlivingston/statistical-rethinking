@@ -345,21 +345,21 @@ ul.task-list li input[type="checkbox"] {
 <section id="hunspell" class="level4">
 <h4 class="anchored" data-anchor-id="hunspell">Hunspell</h4>
 <p><a href="https://github.com/hunspell/hunspell">Hunspell</a> is <em>the</em> open source spellchecking library. It is used by the <a href="https://github.com/christopherkenny/spellcheck">spellcheck</a> quarto extension.</p>
-<p><strong>Windows</strong>:</p>
+<p>Windows:</p>
 <pre class="pwsh"><code>choco install hunspell.portable</code></pre>
-<p><strong>Mac</strong>:</p>
+<p>Mac:</p>
 <pre><code>brew install hunspell</code></pre>
-<p><strong>Linux</strong>:</p>
+<p>Linux:</p>
 <pre><code>sudo apt-get install hunspell</code></pre>
 </section>
 <section id="en_us-dictionary" class="level4">
 <h4 class="anchored" data-anchor-id="en_us-dictionary">en_US dictionary</h4>
 <p>After installing Hunspell, you must install the <code>en_US</code> dictionary.</p>
-<p><strong>Windows</strong>/<strong>Mac</strong>: Download the <a href="https://github.com/wooorm/dictionaries/tree/main/dictionaries/en">dictionary</a> files (both files: <code>.dic</code> and <code>.aff</code>), and place them in hunspell’s dictionary SEARCH PATH.</p>
+<p>Windows/Mac: Download the <a href="https://github.com/wooorm/dictionaries/tree/main/dictionaries/en">dictionary</a> files (both files: <code>.dic</code> and <code>.aff</code>), and place them in hunspell’s dictionary SEARCH PATH.</p>
 <p>To view the search path, use the command line:</p>
 <pre><code>hunspell -D</code></pre>
 <p>To add a new directory to the search path, add the directory to the <code>DICPATH</code> environment variable.</p>
-<p><strong>Linux</strong>:</p>
+<p>Linux:</p>
 <pre><code>sudo apt-get install hunspell-en-us</code></pre>
 </section>
 </section>
