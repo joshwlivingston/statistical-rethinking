@@ -561,7 +561,7 @@ window.Quarto = {
 <ol type="1">
 <li>Define the <em>parameter</em> <strong>grid</strong>:</li>
 </ol>
-<div id="dd522cd6" class="cell" data-execution_count="1">
+<div id="e4c27844" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -574,7 +574,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Compute the <em>likelihood</em> at each <em>parameter</em> value:</li>
 </ol>
-<div id="d9225dfe" class="cell" data-execution_count="2">
+<div id="f327ab66" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> st</span>
@@ -585,7 +585,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Define the <em>priors</em>:</li>
 </ol>
-<div id="6ea3bb8f" class="cell" data-execution_count="3">
+<div id="73df0464" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> {</span>
@@ -598,7 +598,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>Compute the <em>posteriors</em> by multiplying the <em>priors</em> and the <em>likelihood</em>:</li>
 </ol>
-<div id="b0b6609c" class="cell" data-execution_count="4">
+<div id="b4abf6fa" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posteriors <span class="op">=</span> {</span>
@@ -610,7 +610,7 @@ window.Quarto = {
 <ol start="5" type="1">
 <li>Analyze the results. Notice the effect of the prior choice:</li>
 </ol>
-<div id="11d003db" class="cell" data-execution_count="5">
+<div id="438270a8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -712,62 +712,109 @@ f''(\hat{\theta}) = H.
 \sigma &amp;\approx \sqrt{-\frac{1}{H}}. \tag{2.17}
 \end{align}
 \]</span></p>
-<p>The <code>pymc</code> <a href="https://github.com/pymc-devs/pymc-resources/blob/main/Rethinking_2/Chp_02.ipynb">translation</a> provides an implementaiton of <em>quadratic approximation</em> that utilizes these special properties of the normal distribution.</p>
-<div id="4a7acd6b" class="cell" data-execution_count="6">
+<p>The <code>pymc</code> <a href="https://github.com/pymc-devs/pymc-resources/blob/main/Rethinking_2/Chp_02.ipynb">translation</a> provides an implementaiton of <em>quadratic approximation</em> that utilizes these special properties of the normal distribution. My class below organizies the fitting code together with the analysis and plotting.</p>
+<div id="bbd62db6" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.repeat((<span class="dv">0</span>, <span class="dv">1</span>), (L, W))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Objective is to identify mu and sigma to fit the posterior normal</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    distribution.</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    mu is a model parameter, the average probability of success. mu receives</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    a uniform prior and its MAP will be used for inference</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">    sigma is obtained using the hessian at the MAP.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BinomialQuadraticApproximation:</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, W: <span class="bu">int</span>, L: <span class="bu">int</span>):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.W <span class="op">=</span> W</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.L <span class="op">=</span> L</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._mu_last <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._sigma_last <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@property</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> n(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Number of trials. Equals W + L.</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.W <span class="op">+</span> <span class="va">self</span>.L</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Taken together, N(mu, sigma) represents the posterior distribution of the</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">    probability of success.</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    # Notes:</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    ## `default_transform=None`</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">    - In pymc5, `default_transform=None` can be added to the parameter,</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">      rather than as tags after the fact.</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">      - Transformation to log-odds are performed by default on bounded</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">        parameters</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">      - We disable so that we may compute the hessian on the untransformed</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">        space</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">    ## 'Powell' optimizer</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">    - Contrary to the translation example, here, the default optimizer does</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">        not move `p` when `default_transform=None`</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">    - 'Powell' returns 0.67 as expected</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># parameters</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">## p: prior: uniform over [0,1]</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.Uniform(<span class="st">"p"</span>, <span class="dv">0</span>, <span class="dv">1</span>, default_transform<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># likelihood: binomial</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> pm.Binomial(<span class="st">"x"</span>, n<span class="op">=</span><span class="bu">len</span>(data), p<span class="op">=</span>p, observed<span class="op">=</span>data.<span class="bu">sum</span>())</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># find MAP</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    MAP <span class="op">=</span> pm.find_MAP(method<span class="op">=</span><span class="st">"Powell"</span>)</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># estimate sigma at MAP</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    hessian <span class="op">=</span> pm.find_hessian(MAP, <span class="bu">vars</span><span class="op">=</span>[p], negate_output<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> np.sqrt(<span class="op">-</span>np.linalg.inv(hessian))[<span class="dv">0</span>][<span class="dv">0</span>]</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> MAP[<span class="st">"p"</span>]</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> st.norm.ppf(<span class="fl">0.055</span>, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma)</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> st.norm.ppf(<span class="fl">0.945</span>, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@property</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> last_fit(<span class="va">self</span>):</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns mu, sigma (None, None if .fit() has not been called)</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._mu_last, <span class="va">self</span>._sigma_last</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ci(<span class="va">self</span>, q):</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">        Given quantile, calcualtes credible interval for most recent fit</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        mu, sigma <span class="op">=</span> <span class="va">self</span>.last_fit</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> mu <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> sigma <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Run .fit() before computing credible intervals"</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> st.norm.ppf(q, loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plot(<span class="va">self</span>, ax<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        mu, sigma <span class="op">=</span> <span class="va">self</span>.last_fit</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> mu <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> sigma <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Run .fit() before plotting"</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> <span class="va">self</span>.W <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> <span class="va">self</span>.L <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>            fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, st.beta.pdf(x, a, b), <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"True Posterior"</span>)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, st.norm.pdf(x, mu, sigma), <span class="st">"b-"</span>, label<span class="op">=</span><span class="st">"Quadratic Approximation"</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"n = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>n<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        ax.legend()</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>):</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="co">        Objective is to identify mu and sigma to fit the posterior normal</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="co">        distribution.</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="co">        mu is a model parameter, the average probability of success. mu receives</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="co">        a uniform prior and its MAP will be used for inference</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="co">        sigma is obtained using the hessian at the MAP.</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co">        Taken together, N(mu, sigma) represents the posterior distribution of the</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="co">        probability of success.</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">        # Notes:</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">        ## `default_transform=None`</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">        - In pymc5, `default_transform=None` can be added to the parameter,</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="co">          rather than as tags after the fact.</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="co">          - Transformation to log-odds are performed by default on bounded</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">            parameters</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="co">          - We disable so that we may compute the hessian on the untransformed</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co">            space</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="co">        ## 'Powell' optimizer</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="co">        - Contrary to the translation example, here, the default optimizer does</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="co">            not move `p` when `default_transform=None`</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co">        - 'Powell' returns 0.67 as expected</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>            <span class="co"># parameters</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>            <span class="co">## p: prior: uniform over [0,1]</span></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>            p <span class="op">=</span> pm.Uniform(<span class="st">"p"</span>, <span class="dv">0</span>, <span class="dv">1</span>, default_transform<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>            <span class="co"># likelihood: binomial</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pm.Binomial(<span class="st">"x"</span>, n<span class="op">=</span><span class="va">self</span>.n, p<span class="op">=</span>p, observed<span class="op">=</span><span class="va">self</span>.W)</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>            <span class="co"># find MAP</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>            MAP <span class="op">=</span> pm.find_MAP(method<span class="op">=</span><span class="st">"Powell"</span>)</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>            <span class="co"># estimate sigma at MAP</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>            hessian <span class="op">=</span> pm.find_hessian(MAP, <span class="bu">vars</span><span class="op">=</span>[p], negate_output<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>            sigma <span class="op">=</span> np.sqrt(<span class="op">-</span>np.linalg.inv(hessian))[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._set_last_fit(MAP[<span class="st">"p"</span>], sigma)</span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.last_fit</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _set_last_fit(<span class="va">self</span>, mu, sigma):</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._mu_last <span class="op">=</span> mu</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._sigma_last <span class="op">=</span> sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/opt/hostedtoolcache/Python/3.12.6/x64/lib/python3.12/site-packages/arviz/__init__.py:39: FutureWarning: 
@@ -776,9 +823,19 @@ Some upcoming changes may be backward incompatible.
 For details and migration guidance, visit: https://python.arviz.org/en/latest/user_guide/migration_guide.html
   warn(</code></pre>
 </div>
+</div>
+<p>We can use the final parameter values to analyze our distribution:</p>
+<div id="89e75873" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BinomialQuadraticApproximation(<span class="dv">6</span>, <span class="dv">3</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mu, sigma <span class="op">=</span> model.fit()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> model.ci(<span class="fl">0.055</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> model.ci(<span class="fl">0.945</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"e78f3c0add824b87b21717f0530c5199","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"040000331fd245e2b24a1603838f75dc","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -791,7 +848,6 @@ RuntimeWarning: invalid value encountered in scalar multiply
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 </div>
-<p>We can use the final parameter values to analyze our distribution</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 18%">
@@ -820,25 +876,63 @@ RuntimeWarning: invalid value encountered in scalar multiply
 </tbody>
 </table>
 <p>We can compare the “true” <em>posterior</em> with the quadratic approximation:</p>
-<div id="2b27d852" class="cell" data-execution_count="7">
+<div id="c09dd70c" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> W <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> L <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ax.plot(x, st.beta.pdf(x, a, b), <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"True Posterior"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ax.plot(x, st.norm.pdf(x, mu, sigma), <span class="st">"b-"</span>, label<span class="op">=</span><span class="st">"Quadratic Approximation"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>w_values <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">24</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(w_values), figsize<span class="op">=</span>(<span class="dv">5</span><span class="op">*</span><span class="bu">len</span>(w_values),<span class="dv">5</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, w <span class="kw">in</span> <span class="bu">enumerate</span>(w_values):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> BinomialQuadraticApproximation(w, <span class="bu">int</span>(w <span class="op">*</span> <span class="fl">0.5</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    model.fit()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    model.plot(ax<span class="op">=</span>axes[i])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"919ce3da25a3467a9a59d104021e9b33","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/opt/hostedtoolcache/Python/3.12.6/x64/lib/python3.12/site-packages/scipy/optimize/_optimize.py:2540: 
+RuntimeWarning: invalid value encountered in scalar multiply
+  tmp2 = (x - v) * (fx - fw)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"e287377c4b534b89bee7c56a19926923","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/opt/hostedtoolcache/Python/3.12.6/x64/lib/python3.12/site-packages/scipy/optimize/_optimize.py:2540: 
+RuntimeWarning: invalid value encountered in scalar multiply
+  tmp2 = (x - v) * (fx - fw)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"c3d342e8fdd345d9886435b419b6a288","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">/opt/hostedtoolcache/Python/3.12.6/x64/lib/python3.12/site-packages/scipy/optimize/_optimize.py:2540: 
+RuntimeWarning: invalid value encountered in scalar multiply
+  tmp2 = (x - v) * (fx - fw)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="02_small-worlds-and-large-worlds_files/figure-html/cell-8-output-1.png" width="571" height="411" class="figure-img"></p>
+<p><img src="02_small-worlds-and-large-worlds_files/figure-html/cell-9-output-10.png" width="1166" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -850,61 +944,63 @@ RuntimeWarning: invalid value encountered in scalar multiply
 <p>Since <em>grid apprximation</em> scales poorly and <em>quadratic approximation</em> does not fit most scenarios, <strong>Markov chain Monte Carlo (MCMC)</strong>, along with other model fitting techniques, have been developed.</p>
 <p><em>MCMC</em> works by sampling from the posterior directly; the result is a sampling distribution of the parameters.</p>
 <p>This <code>pymc5</code> implementation uses the <strong>Metropolis Algorithm</strong>, explained in Chapter 9.</p>
-<div id="16d290b7" class="cell" data-execution_count="8">
+<div id="760e68f0" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> np.repeat(<span class="fl">0.0</span>, N)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>p[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>q0 <span class="op">=</span> st.binom.pmf(W, W <span class="op">+</span> L, p[<span class="dv">0</span>])</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Propose a value</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    p_new <span class="op">=</span> st.norm.rvs(p[i <span class="op">-</span> <span class="dv">1</span>], <span class="fl">0.1</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Enforce [0, 1]</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> p_new <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        p_new <span class="op">=</span> np.<span class="bu">abs</span>(p_new)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> p_new <span class="op">&gt;</span> <span class="dv">1</span>:</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            p_new <span class="op">=</span> <span class="dv">2</span> <span class="op">-</span> p_new</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Accept/Reject</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> st.binom.pmf(W, W <span class="op">+</span> L, p_new)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> st.uniform.rvs(<span class="dv">0</span>, <span class="dv">1</span>) <span class="op">&lt;</span> q1 <span class="op">/</span> q0:</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Accept</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="op">=</span> p_new</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        q0 <span class="op">=</span> q1</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reject</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="op">=</span> p[i <span class="op">-</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> np.repeat(<span class="fl">0.0</span>, N)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>p[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>q0 <span class="op">=</span> st.binom.pmf(W, W <span class="op">+</span> L, p[<span class="dv">0</span>])</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Propose a value</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    p_new <span class="op">=</span> st.norm.rvs(p[i <span class="op">-</span> <span class="dv">1</span>], <span class="fl">0.1</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Enforce [0, 1]</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> p_new <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        p_new <span class="op">=</span> np.<span class="bu">abs</span>(p_new)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> p_new <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            p_new <span class="op">=</span> <span class="dv">2</span> <span class="op">-</span> p_new</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Accept/Reject</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> st.binom.pmf(W, W <span class="op">+</span> L, p_new)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> st.uniform.rvs(<span class="dv">0</span>, <span class="dv">1</span>) <span class="op">&lt;</span> q1 <span class="op">/</span> q0:</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Accept</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="op">=</span> p_new</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        q0 <span class="op">=</span> q1</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reject</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="op">=</span> p[i <span class="op">-</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>The resulting sampling distribution can be visualized alongside its estimated density and the <strong>analytical posterior</strong>.</p>
-<div id="68de30f5" class="cell" data-execution_count="9">
+<div id="790f63aa" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> ax.twinx()</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ax2.plot(x, st.beta.pdf(x, W <span class="op">+</span> <span class="dv">1</span>, L <span class="op">+</span> <span class="dv">1</span>), <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"Analytical posterior"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>az.plot_kde(p, label<span class="op">=</span><span class="st">"Metropolis approximation"</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>ax.hist(p, bins<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> ax.twinx()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax2.plot(x, st.beta.pdf(x, W <span class="op">+</span> <span class="dv">1</span>, L <span class="op">+</span> <span class="dv">1</span>), <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"Analytical posterior"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>az.plot_kde(p, label<span class="op">=</span><span class="st">"Metropolis approximation"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>ax.hist(p, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_2572/294223342.py:13: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+<pre><code>/tmp/ipykernel_2550/294223342.py:13: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
   ax.legend()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="02_small-worlds-and-large-worlds_files/figure-html/cell-10-output-2.png" width="662" height="470" class="figure-img"></p>
+<p><img src="02_small-worlds-and-large-worlds_files/figure-html/cell-11-output-2.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -927,7 +1023,7 @@ RuntimeWarning: invalid value encountered in scalar multiply
 
 </main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
-{"state":{"32c93a0831414c1899da7d8d7a8340a9":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"e78f3c0add824b87b21717f0530c5199":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_32c93a0831414c1899da7d8d7a8340a9","msg_id":"","outputs":[{"data":{"text/html":"<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">MAP <span style=\"color: #3a3a3a; text-decoration-color: #3a3a3a\">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style=\"color: #800080; text-decoration-color: #800080\">  0%</span> 0:00:01 logp = -1.2979\n</pre>\n","text/plain":"MAP \u001b[38;5;237m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[35m  0%\u001b[0m 0:00:01 logp = -1.2979\n"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}}},"version_major":2,"version_minor":0}
+{"state":{"040000331fd245e2b24a1603838f75dc":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_2554aa79f2054801882a9183836c52f5","msg_id":"","outputs":[{"data":{"text/html":"<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">MAP <span style=\"color: #3a3a3a; text-decoration-color: #3a3a3a\">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style=\"color: #800080; text-decoration-color: #800080\">  0%</span> 0:00:01 logp = -1.2979\n</pre>\n","text/plain":"MAP \u001b[38;5;237m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[35m  0%\u001b[0m 0:00:01 logp = -1.2979\n"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}},"13359ff8976f4aa9ad94adf3dea0cd0c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"2554aa79f2054801882a9183836c52f5":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"919ce3da25a3467a9a59d104021e9b33":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_b293cb4729994824af0b095b4566648b","msg_id":"","outputs":[{"data":{"text/html":"<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">MAP <span style=\"color: #3a3a3a; text-decoration-color: #3a3a3a\">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style=\"color: #800080; text-decoration-color: #800080\">  0%</span> 0:00:01 logp = -1.2979\n</pre>\n","text/plain":"MAP \u001b[38;5;237m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[35m  0%\u001b[0m 0:00:01 logp = -1.2979\n"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}},"b293cb4729994824af0b095b4566648b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"c3d342e8fdd345d9886435b419b6a288":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_ee9ed45d36ba44bc9188788c00ec8110","msg_id":"","outputs":[{"data":{"text/html":"<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">MAP <span style=\"color: #3a3a3a; text-decoration-color: #3a3a3a\">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style=\"color: #800080; text-decoration-color: #800080\">  0%</span> 0:00:01 logp = -1.9672\n</pre>\n","text/plain":"MAP \u001b[38;5;237m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[35m  0%\u001b[0m 0:00:01 logp = -1.9672\n"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}},"e287377c4b534b89bee7c56a19926923":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_13359ff8976f4aa9ad94adf3dea0cd0c","msg_id":"","outputs":[{"data":{"text/html":"<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">MAP <span style=\"color: #3a3a3a; text-decoration-color: #3a3a3a\">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style=\"color: #800080; text-decoration-color: #800080\">  0%</span> 0:00:01 logp = -1.6285\n</pre>\n","text/plain":"MAP \u001b[38;5;237m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[35m  0%\u001b[0m 0:00:01 logp = -1.6285\n"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}},"ee9ed45d36ba44bc9188788c00ec8110":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}}},"version_major":2,"version_minor":0}
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
