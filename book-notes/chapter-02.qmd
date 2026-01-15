@@ -84,7 +84,7 @@ The *prior* is part of the model; thus, it should be developed within the same
 cyclic development of the rest of the model.
 
 *Priors* are arbitrary, a choice made by the scientist. So, it is important to
-test many *priors*. This does not mean that the scientist has undue influence over the model. If the chocsen *prior* is bad, the model will be bad.
+test many *priors*. This does not mean that the scientist has undue influence over the model. If the chosen *prior* is bad, the model will be bad.
 
 ## 2.4: Making the model go
 
@@ -219,7 +219,7 @@ plt.show()
 Generally, the area near the peak of the *posterior* will be nearly Gaussian.
 So, the *posterior* can be approximated by a Gaussian distribution.
 
-This Gaussian approximation is known as **quadratic approximation** becuase the
+This Gaussian approximation is known as **quadratic approximation** because the
 logarithm of a normal distribution is a parabola. *Quadratic approximation* is
 also referred to as:
 
@@ -262,7 +262,7 @@ $$
 We are interested in the shape of the distribution near the mode. We label this
 peak $\hat{\theta}$.
 
-To approximate $f(\theta)$, we use a taylor expansion.
+To approximate $f(\theta)$, we use a Taylor expansion.
 
 $$
 f(\theta) \approx f(\hat{\theta}) + 
@@ -326,8 +326,8 @@ $$
 
 The `pymc`
 [translation](https://github.com/pymc-devs/pymc-resources/blob/main/Rethinking_2/Chp_02.ipynb)
-provides an implementaiton of *quadratic approximation* that utilizes these
-special properties of the normal distribution. My class below organizies the
+provides an implementation of *quadratic approximation* that utilizes these
+special properties of the normal distribution. My class below organizes the
 fitting code together with the analysis and plotting.
 ```{python}
 import pymc as pm
@@ -456,7 +456,7 @@ plt.show()
 
 ### 2.4.5: Markov chain Monte Carlo
 
-Since *grid apprximation* scales poorly and *quadratic approximation* does not
+Since *grid approximation* scales poorly and *quadratic approximation* does not
 fit most scenarios, **Markov chain Monte Carlo (MCMC)**, along with other model
 fitting techniques, have been developed.
 

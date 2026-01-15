@@ -60,3 +60,34 @@ execute:
 
 filters:
   - spellcheck
+
+spellcheck-ignore:
+  - McElreath
+  - hunspell
+  - CC0
+  - pre
+  - uv
+  - Golem
+  - generalizable
+  - NHST
+  - DAGs
+  - 10x
+  - Kitcher
+  - Tukey
+  - frequentist
+  - definitiveness
+  - tollens
+  - golem
+  - golems
+  - acyclic
+  - societally
+  - overfitting
+  - Modus
+  - pmf
+  - unobservable
+  - dualistically
+  - posteriori
+  - A2
+  - MCMC
+  - Dev
+  - underrepresents

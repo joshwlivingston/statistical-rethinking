@@ -1,6 +1,6 @@
 # Notes on Statistical Rethinking
 
-This repo contains my 
+This website contains my 
 [notes and code](https://joshwlivingston.github.io/statistical-rethinking-notes/) as
 I work through
 [Richard McElreath's](https://github.com/rmcelreath) 2025 
@@ -13,11 +13,11 @@ publishing the
 online.
 
 ## Organization
-The repoistory is organized into separate quarto files, which are stitched
+The repository is organized into separate quarto files, which are stitched
 together in `_quarto.yml`.
 
 - `book-notes/`: contains notes and exercises directly from the textbook
-- `course-notes/`: contains notes from pre-recorded lecutres and slides
+- `course-notes/`: contains notes from pre-recorded lectures and slides
 - `homework/`: contains homework solutions
 
 ## Setup
@@ -44,7 +44,7 @@ the PATH.
 
 ### Quarto
 In addition to [Quarto](https://quarto.org/), you must install the following
-system depdencies:
+system dependencies:
 
 #### Hunspell
 
